@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<!--
+    File: index.html
+    Purpose:
+        - Main HTML document for the Password Manager single-page UI.
+        - Defines the layout: left column for stored passwords and right column for the password generator.
+
+    Notes for future modification:
+        - Structure: the page is split into a `.container` (stored passwords + form) and an `aside.generator` (password generator).
+        - If you change element IDs used by `script.js` (for example `#website`, `#add-btn`, `#password-list`, `#generate-btn`, etc.), update the corresponding selectors in `script.js`.
+        - Font Awesome is included via CDN for icons. Replace or remove the CDN link if you switch to a local copy.
+        - Accessibility: consider adding labels and ARIA attributes for better screen-reader support when expanding this project.
+        - Security: this project stores passwords in localStorage for demo purposes only — do NOT use this approach in production where sensitive data must be secured. Consider using encryption or a secure backend.
+        - Popup markup: the custom popup is implemented in the DOM with id `custom-popup`. `script.js` depends on this exact structure.
+
+    Quick edit pointers:
+        - To change default generated password length, edit the `value` attribute of the `#length` input here or change the default in `script.js` generation code.
+        - To add new generator options, add inputs here and read them in `script.js`'s generator event handler.
+-->
+
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Password Manager</title>
+    <link rel="stylesheet" href="styles.css">
+    <!-- Include Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+
+<body>
+    <div class="layout">
+        <div class="container">
+            <h1>Password Manager</h1>
+            <div class="form-container">
+                <input type="text" id="website" placeholder="Website Name">
+                <input type="text" id="username" placeholder="Username">
+                <input type="password" id="password" placeholder="Password">
+                <button id="add-btn">Add Password</button>
+            </div>
+            <div class="password-list">
+                <ul id="password-list"></ul>
+            </div>
+        </div>
+
+        <!-- Password generator panel to the right -->
+        <aside class="generator">
+            <div class="generator-content">
+                <h2>Password Generator</h2>
+                <div class="gen-controls">
+                    <label for="length">Length</label>
+                    <input type="input" id="length" min="6" max="64" value="16">
+
+                    <div class="options">
+                        <label><input type="checkbox" id="include-lower" checked> a-z</label>
+                        <label><input type="checkbox" id="include-upper" checked> A-Z</label>
+                        <label><input type="checkbox" id="include-numbers" checked> 0-9</label>
+                        <label><input type="checkbox" id="include-symbols" checked> !@#$%</label>
+                    </div>
+
+                    <button id="generate-btn">Generate</button>
+
+                    <div class="output">
+                        <input type="text" id="generated-password" readonly
+                            placeholder="Your password will appear here">
+                        <button id="copy-gen">Copy</button>
+                    </div>
+                </div>
+            </div>
+        </aside>
+    </div>
+
+    <!-- Custom Popup HTML -->
+    <div id="custom-popup" class="popup hidden">
+        <div class="popup-content">
+            <div id="popup-message"></div>
+            <div id="popup-input-container" class="hidden">
+                <input type="text" id="popup-input" placeholder="New Password">
+            </div>
+            <div class="popup-buttons">
+                <button id="popup-ok">OK</button>
+                <button id="popup-cancel" class="hidden">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
